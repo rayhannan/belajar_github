@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pegawai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tfoot td {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Pegawai</h1>
+
+    <table>
+        <!-- Judul Kolom -->
+        <thead>
+            <tr>
+                <th>Nama Pegawai</th>
+                <th>Umur</th>
+                <th>Jabatan</th>
+                <th>Status</th>
+                <th>Gaji Pokok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>BPJS</th>
+                <th>Tunjangan Keluarga</th>
+                <th>Total Gaji</th>
+            </tr>
+        </thead>
+
+        <!-- Isi Data -->
+        <tbody id="dataPegawai">
+            <!-- Data akan diisi oleh JavaScript -->
+        </tbody>
+
+        <!-- Total Gaji -->
+        <tfoot id="totalGaji">
+            <!-- Total gaji akan diisi oleh JavaScript -->
+        </tfoot>
+    </table>
+
+    <script>
+        // Data pegawai
+        const pegawai = {
+            nama: "Dodi Prayodi",
+            umur: 25,
+            jabatan: "Manajer",
+            status: "Menikah"
+        };
+
+        // Hitung Gaji Pokok berdasarkan Jabatan
+        let gajiPokok = 0;
+        if (pegawai.jabatan.toLowerCase() === "manajer") {
+            gajiPokok = 15000000; // 15 juta
+        } else if (pegawai.jabatan.toLowerCase() === "asisten manajer") {
+            gajiPokok = 10000000; // 10 juta
+        } else if (pegawai.jabatan.toLowerCase() === "staff") {
+            gajiPokok = 5000000; // 5 juta
+        }
+
+        // Tunjangan Jabatan 15% dari gaji pokok
+        const tunjanganJabatan = 0.15 * gajiPokok;
+
+        // BPJS 10% dari gaji pokok
+        const bpjs = 0.10 * gajiPokok;
+
+        // Tunjangan Keluarga 20% dari gaji pokok jika sudah menikah (ternary)
+        const tunjanganKeluarga = (pegawai.status.toLowerCase() === "menikah") ? 0.20 * gajiPokok : 0;
+
+        // Total Gaji
+        const totalGaji = gajiPokok + tunjanganJabatan + bpjs + tunjanganKeluarga;
+
+        // Menampilkan data pegawai di tbody
+        const tbody = document.getElementById("dataPegawai");
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${pegawai.nama}</td>
+            <td>${pegawai.umur}</td>
+            <td>${pegawai.jabatan}</td>
+            <td>${pegawai.status}</td>
+            <td>Rp ${gajiPokok.toLocaleString()}</td>
+            <td>Rp ${tunjanganJabatan.toLocaleString()}</td>
+            <td>Rp ${bpjs.toLocaleString()}</td>
+            <td>Rp ${tunjanganKeluarga.toLocaleString()}</td>
+            <td>Rp ${totalGaji.toLocaleString()}</td>
+        `;
+
+        tbody.appendChild(row);
+
+        // Menampilkan total gaji di tfoot
+        const tfoot = document.getElementById("totalGaji");
+        const footRow = document.createElement("tr");
+        footRow.innerHTML = `
+            <td colspan="8">Total Gaji</td>
+            <td>Rp ${totalGaji.toLocaleString()}</td>
+        `;
+        tfoot.appendChild(footRow);
+    </script>
+</body>
+</html>
